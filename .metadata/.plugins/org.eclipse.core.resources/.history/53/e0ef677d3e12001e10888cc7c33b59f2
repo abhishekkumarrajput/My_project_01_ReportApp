@@ -1,0 +1,49 @@
+package com.example.demo.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Model.CitiZenPlan;
+import com.example.demo.Repository.CitizenRepository;
+import com.example.demo.Request.SearchRequest;
+import com.example.demo.Service.ReportService;
+
+@Service
+public class ReportServiceImpl implements ReportService {
+
+	@Autowired
+	private CitizenRepository citizenRepository;
+	
+	@Override
+	public List<String> getPlaneName() {
+	List<String> planName = this.citizenRepository.getPlaneName();
+		return planName;
+	}
+
+	@Override
+	public List<String> getPlaneStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CitiZenPlan> search(SearchRequest search) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean exportExcel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean exportPdf() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

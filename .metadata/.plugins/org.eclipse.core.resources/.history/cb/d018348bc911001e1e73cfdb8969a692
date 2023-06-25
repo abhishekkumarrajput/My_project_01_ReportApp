@@ -1,0 +1,17 @@
+package com.example.demo.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.example.demo.Service.ReportService;
+import com.example.demo.serviceImpl.ReportServiceImpl;
+
+@Controller
+public class ReportController {
+	
+	@Autowired
+	private ReportService reposService;
+
+	
+	
+}

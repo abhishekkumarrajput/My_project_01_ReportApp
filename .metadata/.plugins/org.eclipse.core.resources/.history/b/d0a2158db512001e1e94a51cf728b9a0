@@ -1,0 +1,91 @@
+package com.example.demo.serviceImpl;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.Model.CitiZenPlan;
+import com.example.demo.Repository.CitizenRepository;
+import com.example.demo.Request.SearchRequest;
+import com.example.demo.Service.ReportService;
+
+@Service
+public class ReportServiceImpl implements ReportService {
+
+	@Autowired
+	private CitizenRepository citizenRepository;
+	
+	@Override
+	public List<String> getPlaneName() {
+	List<String> planName = this.citizenRepository.getPlaneName();
+		return planName;
+	}
+
+	@Override
+	public List<String> getPlaneStatus() {
+		List<String> planeStaus = this.citizenRepository.getStatusName();
+		return planeStaus;
+	}
+
+	@Override
+	public List<CitiZenPlan> search(SearchRequest search) {
+		
+	CitiZenPlan citiZenPlan= new CitiZenPlan();	          // i need copy the data from binding object to entity object 
+
+	if(search.getPlaneName()!=null && search.getPlaneName()!="") {   // searchRequest mein jo data aa Raha ha vo null aur empty bhi vo skate hain esliye humne condision lagaiye hain
+		citiZenPlan.setPlaneName(search.getPlaneName());
+		
+	}
+	
+	if(search.getPlaneStatus()!=null && search.getPlaneStatus()!="") {
+		citiZenPlan.setPlaneStatus(search.getPlaneStatus());
+	}
+	if(search.getGender()!=null && search.getGender()!="") {
+		citiZenPlan.setGender(search.getGender());
+		
+	}
+	if(search.getPlanStartDate()!= null && search.getPlanStartDate()!="") {
+		String startDate = search.getPlanStartDate();
+DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+// convert String to LocalDate  note:- humne convert kyu kiya kyuki humri entity mein Data ka jo type tha vo localDate mein tha aur Humre ui jo Date aa rahi thi vo String format mein thi esliye
+LocalDate localDate = LocalDate.parse(startDate, formatter);
+citiZenPlan.setPlanStartDate(localDate);
+		
+	}
+	
+	if(search.getPlanEndDate()!= null && search.getPlanEndDate()!="") {
+		String endDate = search.getPlanEndDate();
+DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+// convert String to LocalDate  note:- humne convert kyu kiya kyuki humri entity mein Data ka jo type tha vo localDate mein tha aur Humre ui jo Date aa rahi thi vo String format mein thi esliye
+LocalDate localDate = LocalDate.parse(endDate, formatter);
+citiZenPlan.setPlanEndDate(localDate);
+		
+	}
+	
+	
+		 List<CitiZenPlan> findAllData = this.citizenRepository.findAll(Example.of(citiZenPlan));
+	return findAllData;
+	}
+	
+
+	@Override
+	public boolean exportExcel() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean exportPdf() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}
